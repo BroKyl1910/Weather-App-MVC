@@ -1,0 +1,186 @@
+﻿@{
+    ViewBag.Title = "View Forecasts";
+}
+
+<div id="forecasts">
+    <div class="rounded-container">
+        <h2>View Forecasts</h2>
+        <div class="rounded-container container-no-shadow">
+            <div class="row">
+                <div class="col-lg-6 col-sm-6" id="left-side">
+                    <div class="form-group">
+                        <label class="forecast-label">City:</label>
+                        <select id="forecast-city-select" class="form-control" multiple>
+                            @foreach (POE_MVC.Helpers.City city in ViewBag.Cities)
+                            {
+                                <option value="@city.id" @if (ViewBag.SelectedCityIDs != null && ViewBag.SelectedCityIDs.Contains(city.id)) { @Html.Raw("selected") ; }>@city.ToString()</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-sm-6" id="right-side">
+
+                    <div class="form-group block">
+                        <label class="forecast-label">Start Date:</label>
+                        <input type="date" id="start-date" name="startDate" value="@ViewBag.StartDate" class="form-control date-select" />
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="forecast-label">End Date:</label>
+                        <input type="date" name="endDate" id="end-date" value="@ViewBag.EndDate" class="form-control date-select" />
+                    </div>
+                    <span id="error-message"></span>
+                    <input type="button" class="btn btn-primary pull-right" id="submit-button" value="Get Forecasts" />
+
+                </div>
+            </div>
+            @if (ViewBag.GettingCities == true)
+            {
+                <div class="row">
+                    <div class="col-lg-3 col-sm-6" id="left-side">
+                        <small><i>Select city from list to view forecasts</i></small>
+                        <div id="favourite-cities-wrapper">
+                            <div class="forecast-details">
+                                @foreach (POE_MVC.Helpers.City c in ViewBag.SelectedCities)
+                                {
+                                    <div class="city-container selected">
+                                        <label class="city-name" id="view_@c.id">@c.ToString()</label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-9 col-sm-6">
+                        @if (ViewBag.Forecasts != null)
+                        {
+                            <div class="favourite-forecast-container">
+
+                                <h2 style="display: block; min-height: 20px;">@ViewBag.CityName</h2>
+                                <div class="light-hr"></div>
+
+                                <div id="forecasts-wrapper">
+                                    @* Forecast template *@
+                                    @foreach (POE_MVC.Models.DB_Forecast f in ViewBag.Forecasts)
+                                    {
+                                        if (f.ForecastID != -1)
+                                        {
+                                            <div class="forecast-details-container">
+                                                <div class="forecast-details">
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <label>Date:</label>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <label>@f.ForecastDate.ToString("yyyy'-'MM'-'dd")</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <label>Minimum:</label>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <label>@f.MinTemp °C</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <label>Maximum:</label>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <label>@f.MaxTemp °C</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <label>Wind Speed:</label>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <label>@f.WindSpeed km/h</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <label>Humidity:</label>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <label>@f.Humidity %</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <label>Precipitation:</label>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <label>@f.Precipitation %</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            @* No forecast template *@
+                                            <div class="forecast-details-container">
+                                                <h3 class="forecast-date">@f.ForecastDate.ToString("yyyy'-'MM'-'dd")</h3>
+                                                <div class="forecast-details">
+                                                    <div class="dark-hr"></div>
+                                                    <p class="no-forecast">No forecast for this date</p>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+
+
+
+                                </div>
+                            </div>
+
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    //Check form and submit
+    $('#submit-button').on('click', () => {
+        if (formValid()) {
+            window.location.replace('/DB_Forecast/GetCities/?cityIds=' + $('#forecast-city-select').val() + '&startDate=' + $('#start-date').val() + '&endDate=' + $('#end-date').val());
+        }
+
+    });
+    function formValid() {
+        if ($('#forecast-city-select').val().length == 0) {
+            $('#error-message').html('Please select at least one city!');
+            return false;
+        }
+
+        if ($('#start-date').val() == "") {
+            $('#error-message').html('Please select start date!');
+            return false;
+        }
+
+        if ($('#end-date').val() == "") {
+            $('#error-message').html('Please select end date!');
+            return false;
+        }
+
+        if ($('#start-date').val() > $('#end-date').val()) {
+            $('#error-message').html('Start date cannot be after end date!');
+            return false;
+        }
+
+        $('#error-message').html('');
+        return true;
+    }
+
+    //If city is clicked to view forecast
+    $('.city-name').on('click', (evt) => {
+        var cityID = evt.currentTarget.id.substring(5);
+        window.location.replace('/DB_Forecast/GetForecasts/?cityIds=' + $('#forecast-city-select').val() + '&cityId=' + Number(cityID) + '&startDate=' + $('#start-date').val() + '&endDate=' + $('#end-date').val());
+    });
+</script>

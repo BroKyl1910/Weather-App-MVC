@@ -45,10 +45,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -126,9 +134,40 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\DB_FavouriteController.cs" />
+    <Compile Include="Controllers\DB_ForecastController.cs" />
+    <Compile Include="Controllers\DB_UserController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\APICurrentWeather.cs" />
+    <Compile Include="Helpers\CityFile.cs" />
+    <Compile Include="Helpers\CityUtilities.cs" />
+    <Compile Include="Helpers\Encryption.cs" />
+    <Compile Include="Models\DB_Favourite.cs">
+      <DependentUpon>WeatherForecastAppModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB_Forecast.cs">
+      <DependentUpon>WeatherForecastAppModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB_User.cs">
+      <DependentUpon>WeatherForecastAppModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WeatherForecastAppModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WeatherForecastAppModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WeatherForecastAppModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WeatherForecastAppModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WeatherForecastAppModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WeatherForecastAppModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -137,13 +176,35 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\cloudy.jpg" />
+    <Content Include="Content\Images\skyWithClouds.jpg" />
+    <Content Include="Content\Images\sunny.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Models\WeatherForecastAppModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>WeatherForecastAppModel.Context.cs</LastGenOutput>
+      <DependentUpon>WeatherForecastAppModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\WeatherForecastAppModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>WeatherForecastAppModel.edmx</DependentUpon>
+      <LastGenOutput>WeatherForecastAppModel.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <EntityDeploy Include="Models\WeatherForecastAppModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>WeatherForecastAppModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\WeatherForecastAppModel.edmx.diagram">
+      <DependentUpon>WeatherForecastAppModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="App_Data\cities.json" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\choose-random-background.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -167,12 +228,17 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\DB_User\Login.cshtml" />
+    <Content Include="Views\DB_User\Logout.cshtml" />
+    <Content Include="Views\DB_Favourite\Create.cshtml" />
+    <Content Include="Views\DB_Favourite\Delete.cshtml" />
+    <Content Include="Views\DB_Favourite\Details.cshtml" />
+    <Content Include="Views\DB_Favourite\Edit.cshtml" />
+    <Content Include="Views\DB_Favourite\Index.cshtml" />
+    <Content Include="Views\DB_User\Register.cshtml" />
+    <Content Include="Views\DB_Forecast\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -185,6 +251,9 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

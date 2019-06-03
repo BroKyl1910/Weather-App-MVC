@@ -1,0 +1,137 @@
+﻿
+@{
+    ViewBag.Title = "Register";
+}
+
+
+<div id="register">
+    <div class="rounded-container">
+        <h1>Weather Forecast App</h1>
+        <div class="row">
+            <div class="col-lg-6 col-sm-12" id="left-side">
+                <p class="lead">Register now for free and have access to both the web app and desktop app!</p>
+            </div>
+            <div class="col-lg-6 col-sm-12">
+                @if (Session["Username"] == null)
+                {
+                    <h1>Register</h1>
+                    using (Html.BeginForm())
+                    {
+                        <div class="form-group">
+                            <label class="control-label">Username</label>
+                            <input type="text" name="username" id="username" value="" class="form-control" autocomplete="off" />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Password</label>
+                            <input type="password" name="password" id="password" value="" class="form-control" autocomplete="off" />
+                            <small>Password must contain at least 2 digits, 2 uppercase and 2 lowercase letters and be at least 8 characters long</small>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Confirm Password</label>
+                            <input type="password" id="confirm-password" name="password" value="" class="form-control" autocomplete="off" />
+                        </div>
+
+                        <span id="error-message" style="color:red; display:block; margin: 10px 0">@ViewBag.Error</span>
+
+                        <input type="button" id="submit-button" class="btn btn-primary" value="Register" />
+                        <br />
+                        <br />
+                        @Html.ActionLink("Already Registered? Log In!", "Login", "DB_User", null, new { @class = "text-white" })
+
+                    }
+                }
+                else
+                {
+                    <p class="lead">You are logged in as @Session["Username"]! What are you waiting for? Go check out our awesome features!!</p>
+                }
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $('#submit-button').on('click', () => {
+        if (formValid()) {
+            $.post({
+                url: '/DB_User/Register',
+                type: 'POST',
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                data: { username: $('#username').val(), password: $('#password').val(), __RequestVerificationToken: getToken() },
+                success: function (res) {
+                    if (res.error) {
+                        $('#error-message').html(res.error);
+                    } else {
+                        window.location.replace(res.url);
+                    }
+                }
+            });
+        }
+    });
+
+    //https://stackoverflow.com/questions/14473597/include-antiforgerytoken-in-ajax-post-asp-net-mvc
+    function getToken() {
+        var token = '@Html.AntiForgeryToken()';
+        token = $(token).val();
+        return token;
+    }
+
+    function formValid() {
+        var username = $('#username').val();
+        var password = $('#password').val();
+        var confirmPassword = $('#confirm-password').val();
+
+        if (username == '') {
+            $('#error-message').html('Please enter a username!');
+            return false;
+        }
+
+        if (password != confirmPassword) {
+            $('#error-message').html('Passwords do not match!');
+            return false;
+        }
+
+
+        if (password.length < 8) {
+            $('#error-message').html('Password must be at least 8 characters long!');
+            return false;
+        }
+
+        var countUpper = 0;
+        var countLower = 0;
+        var countDigit = 0;
+
+        //https://stackoverflow.com/questions/1027224/how-can-i-test-if-a-letter-in-a-string-is-uppercase-or-lowercase-using-javascrip
+        for (i = 0; i < password.length; i++) {
+            console.log(password[i]);
+            if (/^[A-Z]*$/.test(String(password[i]))) {
+                countUpper++;
+            } else if (/^[a-z]*$/.test(String(password[i]))) {
+                countLower++;
+            } else if (/^[0-9]*$/.test(String(password[i]))) {
+                countDigit++;
+            }
+        }
+
+        if (countUpper < 2) {
+            $('#error-message').html('Password must contain at least 2 uppercase characters!');
+            return false;
+        }
+
+        if (countLower < 2) {
+            $('#error-message').html('Password must contain at least 2 lowercase characters!');
+            return false;
+        }
+
+        if (countDigit < 2) {
+            $('#error-message').html('Password must contain at least 2 digits!');
+            return false;
+        }
+
+
+        return true;
+
+    }
+
+</script>

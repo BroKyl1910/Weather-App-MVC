@@ -1,6 +1,18 @@
-﻿body {
-    padding-top: 50px;
+﻿.h1, .h2, p, th, td {
+    color: white;
+}
+
+body {
     padding-bottom: 20px;
+    width: 100vw;
+    height: 100vh;
+    background-image: url("Images/skyWithClouds.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+footer {
+    display: none;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -21,4 +33,532 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+
+div.container.body-content {
+    margin-top: 100px;
+}
+
+div.navbar.navbar-inverse.navbar-fixed-top {
+    background-color: rgba(0, 0, 0, 0.51);
+    -webkit-box-shadow: 10px 15px 11px -2px rgba(0,0,0,0.12);
+    -moz-box-shadow: 10px 15px 11px -2px rgba(0,0,0,0.12);
+    box-shadow: 10px 15px 11px -2px rgba(0,0,0,0.12);
+}
+
+/*Color for navbar links*/
+.navbar-inverse .navbar-nav > li > a, .navbar-inverse .navbar-brand {
+    color: white;
+}
+
+.link-item:hover {
+    background-color: rgba(0,0,0,0.3);
+}
+
+.link-item:hover a {
+    text-decoration: underline;
+}
+
+.rounded-container {
+    -webkit-box-shadow: 10px 15px 32px -2px rgba(0,0,0,0.84);
+    -moz-box-shadow: 10px 15px 32px -2px rgba(0,0,0,0.84);
+    box-shadow: 10px 15px 32px -2px rgba(0,0,0,0.84);
+    border-radius: 15px;
+    padding: 60px 30px;
+    padding-top: 30px;
+    background-color: rgba(0,0,0,0.1);
+    color: white;
+    /*width: 70%;*/
+    margin: 0 auto;
+}
+
+.rounded-container div.row {
+    padding: 10px 0;
+    border-top: 1px solid rgba(0,0,0,0.2);
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+
+.rounded-container a {
+    color: white;
+}
+
+.rounded-container #left-side {
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+.rounded-container div {
+    align-self: center;
+}
+
+/*Small devices (landscape phones, 576px and up)*/
+@media (min-width: 576px) {
+    .rounded-container #left-side {
+        border-right: none;
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+}
+
+/*Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) {
+    .rounded-container #left-side {
+        border-right: none;
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+}
+
+/*Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) {
+    .rounded-container #left-side {
+        border-right: none;
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+}
+
+/*Extra large devices (large desktops, 1200px and up)*/
+@media (min-width: 1200px) {
+    .rounded-container #left-side {
+        border-bottom: none;
+        border-right: 1px solid rgba(255,255,255,0.2);
+    }
+}
+
+.rounded-container .row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.rounded-container div.row div {
+    flex-shrink: 1;
+    flex-grow: 1;
+}
+
+body::-webkit-scrollbar {
+    width: 5px;
+}
+
+body::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.51);
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
+}
+
+.light-hr{
+    height: 1px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    width: 100%;
+}
+
+.dark-hr{
+    height: 1px;
+    border-top: 1px solid rgba(0,0,0,0.2);
+}
+
+
+
+/****************************************************************/
+/*****************   LOGIN PAGE   *******************************/
+/****************************************************************/
+#login {
+    height: 100%;
+    width: 100%;
+}
+
+#login .rounded-container{
+    width: 70%;
+}
+/****************************************************************/
+/*****************   FAVOURITES PAGE   **************************/
+/****************************************************************/
+
+#favourites {
+    height: 100%;
+    width: 100%;
+}
+
+.favourites-container{
+    box-shadow:none;
+}
+
+.favourites-container div {
+    align-self: initial;
+}
+
+#favourite-cities-wrapper {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+
+.favourite-city-container {
+    width: 100%;
+    margin-bottom: 15px;
+    transition: background-color ease 0.3s;
+    border-radius: 5px;
+    padding: 10px;
+    text-align: left;
+}
+
+.favourite-city-container:hover, .favourite-city-container.selected {
+    background-color: rgba(0,0,0,0.2);
+}
+
+
+.favourite-city-container label:hover {
+    cursor: pointer;
+}
+
+.favourite-city-container button {
+    background-color: Transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+}
+
+#use-api-wrapper{
+    text-align:left;
+    margin-bottom: 10px;
+    background-color: rgba(0,0,0,0.2);
+    padding: 10px;
+    border-radius: 5px;
+}
+#use-api-wrapper input{
+    margin-right: 5px;
+    background-color: transparent;
+}
+
+#add-favourite-wrapper{
+    padding: 10px;
+    text-align: left;
+    background-color: rgba(0,0,0,0.2);
+    margin-top: 10px;
+}
+
+#add-favourite-wrapper i{
+    margin-right: 5px;
+    font-weight: normal;
+}
+
+#add-favourite-wrapper:hover, #add-favourite-wrapper label:hover, #add-favourite-wrapper i:hover {
+    cursor: pointer;
+}
+
+/*Scroll-bar styling from CSS-Tricks*/
+#favourite-cities-wrapper::-webkit-scrollbar {
+    width: 2px;
+}
+
+#favourite-cities-wrapper::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+
+#favourite-cities-wrapper::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
+}
+
+.favourite-forecast-container {
+    /*height: 300px;*/
+    width: 70%;
+    margin: 0 auto;
+}
+
+.favourite-forecast-container h2 {
+    text-align:center;
+}
+
+.forecast-desc{
+    text-align: center;
+}
+
+#forecast-details-container {
+    margin-top: 10px;
+}
+
+#forecast-details-container div.row:last-of-type{
+    border-bottom: none;
+}
+
+.favourite-forecast-container div.row {
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+
+#popup-container * {
+    box-sizing: border-box;
+}
+
+#popup-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 98;
+    background-color: rgba(0,0,0,0.5);
+}
+
+#delete-form-wrapper {
+    display:none;
+    background-color: rgba(0,0,0,0.7);
+    border-radius: 5px;
+    padding: 30px;
+    margin-top: 20px;
+    position: absolute;
+    overflow-y: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    width: 60%;
+    color: white;
+}
+
+#add-form-wrapper {
+    display: none;
+    background-color: rgba(0,0,0,0.7);
+    border-radius: 5px;
+    padding: 30px;
+    margin-top: 20px;
+    position: absolute;
+    overflow-y: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    width: 60%;
+    color: white;
+}
+
+#form-wrapper p{
+    color: white;
+}
+
+.delete-confirm-button{
+    background-color: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    margin: 15px;
+    padding: 10px 30px;
+    border-radius: 15px;
+}
+
+#add-favourite-container{
+    width: 60%;
+    margin: 0 auto;
+}
+
+#city-input{
+    width: 100%;
+    display:block;
+    background: transparent;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    color: white;
+}
+
+#city-select {
+    width: 100%;
+    display: block;
+    background: transparent;
+    overflow-y: auto;
+    height: 200px;
+    border: none;
+}
+
+#city-select option{
+    padding: 10px;
+}
+
+#city-select::-webkit-scrollbar {
+    width: 2px;
+}
+
+#city-select::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.51);
+}
+
+#city-select::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
+}
+
+/****************************************************************/
+/*****************   FORECAST PAGE   **************************/
+/****************************************************************/
+#forecasts .rounded-container div.row div#left-side div.form-group {
+    display: flex;
+    align-items: flex-start;
+    border-right: none;
+    border-bottom: none;
+}
+
+#forecasts #left-side{
+    border-right: none;
+    border-bottom: none;
+}
+
+
+.forecast-label{
+    font-size: 16px;
+    padding-top: 10px;
+}
+
+#forecast-city-select {
+    display: inline;
+    background-color: transparent;
+    height: 200px;
+    overflow-y: auto;
+    margin-left: 20px;
+    border: none;
+}
+
+#forecast-city-select option {
+    color: white;
+    font-size: 16px;
+    padding: 5px 10px;
+    margin: 5px 10px;
+    border-radius: 10px;
+}
+
+#forecast-city-select option::selection{
+    background: rgba(0,0,0,0.2);
+}
+
+#forecast-city-select::-webkit-scrollbar {
+    width: 2px;
+}
+
+#forecast-city-select::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.51);
+}
+
+#forecast-city-select::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
+}
+
+.date-select{
+    margin-left: 15px;
+    color: white;
+    background-color: rgba(0,0,0,0.2);
+    border: none;
+    text-transform: uppercase;
+}
+
+#right-side{
+    display:block;
+}
+
+#submit-button {
+    background-color: rgba(0,0,0,0.2);
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+    margin-right: 30px;
+    padding: 10px
+}
+
+.city-container {
+    width: 100%;
+    margin-bottom: 15px;
+    transition: background-color ease 0.3s;
+    border-radius: 5px;
+    padding: 10px;
+    text-align: left;
+}
+
+.city-container:hover, .favourite-city-container.selected {
+    background-color: rgba(0,0,0,0.2);
+}
+
+
+.city-container label:hover {
+    cursor: pointer;
+}
+
+.city-container button {
+    background-color: Transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+}
+
+#forecasts #favourite-cities-wrapper{
+    background-color: rgba(0,0,0,0.1);
+    padding: 15px;
+    border-radius: 10px;
+    max-height: 320px;
+    overflow-y: auto;
+}
+#forecasts .city-container {
+    width: 100%;
+    margin-bottom: 10px;
+    transition: background-color ease 0.3s;
+    border-radius: 5px;
+    padding: 10px;
+    text-align: left;
+}
+
+.rounded-container.container-no-shadow {
+    box-shadow: none;
+}
+
+#forecasts .forecast-details-container {
+    background-color: rgba(0,0,0,0.1);
+    padding: 15px;
+    border-radius: 10px;
+    overflow-y: auto;
+    margin-top: 15px;
+}
+
+#forecasts-wrapper{
+    max-height: 350px;
+    overflow-y: scroll;
+}
+
+#forecasts-wrapper::-webkit-scrollbar {
+    width: 5px;
+}
+
+#forecasts-wrapper::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.51);
+}
+
+#forecasts-wrapper::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
+}
+
+
+
+.forecast-date{
+    text-align:center;
+}
+
+.no-forecast{
+    font-style: italic;
+    text-align: center;
+    margin: 30px;
+    font-size: 16px;
+}
+
+#error-message{
+    color: red;
+}
+
+.city-container:last-of-type{
+    margin-bottom: 0;
 }

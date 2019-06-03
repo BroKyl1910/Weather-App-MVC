@@ -1,0 +1,264 @@
+﻿@model List<int>
+
+@{
+    ViewBag.Title = "Favourites";
+}
+
+<div id="favourites">
+
+    <div class="rounded-container">
+
+        <h2>My Favourites</h2>
+        <div class="rounded-container favourites-container">
+            <div class="row">
+                <div class="col-lg-3 col-sm-6" id="left-side">
+                    @if (ViewBag.HasFavourites == true)
+                    {
+                        <div id="use-api-wrapper">
+                            <input type="checkbox" id="useAPI" name="useAPI" class="pull-left" @if (ViewBag.UseAPI == true) { @Html.Raw("checked") ; } /><label for="switch">Use API</label>
+                        </div>
+                    }
+                    <div id="favourite-cities-wrapper">
+                        @foreach (int i in Model)
+                        {
+                            {
+                                string cityName = ViewBag.CityIdNameDict[i];
+                                <div class="favourite-city-container @if (ViewBag.SelectedID == i) { @Html.Raw("selected"); } ">
+                                    <label class="city-name" id="view_@i">@cityName</label>
+                                    <button class="delete-button pull-right" id="delete_@i"><i class="glyphicon glyphicon-trash"></i></button>
+                                </div>
+                            }
+                        }
+                    </div>
+                    <div id="add-favourite-wrapper">
+                        <span><i class="glyphicon glyphicon-plus"></i></span>
+                        <label>Add</label>
+                    </div>
+                </div>
+                <div class="col-lg-9 col-sm-6">
+                    <div class="favourite-forecast-container">
+                        @if (ViewBag.HasFavourites == false)
+                        {
+                            <h2>Add Favourites!</h2>
+                        }
+                        else
+                        {
+                            <h2>@ViewBag.City</h2>
+                        }
+                        <p class="forecast-desc">@ViewBag.Desc</p>
+                        <div class="light-hr"></div>
+                        <div id="forecast-details-container">
+                            @if (ViewBag.HasForecast == true)
+                            {
+
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <label>Date:</label>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label>@ViewBag.Date</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <label>Minimum:</label>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label>@ViewBag.Min</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <label>Maximum:</label>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label>@ViewBag.Max</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <label>Wind Speed:</label>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label>@ViewBag.Wind</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <label>Humidity:</label>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label>@ViewBag.Humidity</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <label>Precipitation:</label>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label>@ViewBag.Precip</label>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                if (ViewBag.HasFavourites == true)
+                                {
+                                    <div class="row">
+                                        <i>No forecasts saved for @ViewBag.City</i>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="row">
+                                        <i>Add cities to be on your favourite list on the left</i>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="popup-container">
+        <div id="delete-form-wrapper" class="rounded-container form-wrapper">
+            <h1>Confirm Delete</h1>
+            <hr>
+            <p style="color:white;">Are you sure you want to remove this city from your favourites?</p>
+            <div class="control-group pull-right">
+                <input class="delete-confirm-button" id="delete-yes-button" type="button" value="Yes">
+                <input class="delete-confirm-button" id="delete-no-button" type="button" value="No">
+            </div>
+        </div>
+
+        <div id="add-form-wrapper" class="rounded-container form-wrapper">
+            <h1>Add Favourite</h1>
+            <hr>
+            <div id="add-favourite-container">
+                <input type="text" name="city" id="city-input" value="" placeholder="City Name" />
+                <select name="city-select" id="city-select" multiple>
+                    @*<option value="id">City</option>
+                        <option value="id">City</option>
+                        <option value="id">City</option>*@
+                </select>
+            </div>
+            <div class="control-group pull-right">
+                <input class="delete-confirm-button" id="add-cancel-button" type="button" value="Cancel">
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<script>
+
+    //Change background
+    var background = "@ViewBag.Background";
+    $(document).ready(function () {
+        if(background != "-1"){
+            $('body').css('background-image', 'url(../Content/Images/' + background +')');
+            console.log("Background chosen!");
+        }
+    });
+
+    //Get forecast for selected city
+    $('.city-name').on('click', (evt) => {
+        var cityID = Number(evt.currentTarget.id.substr(5));
+
+        //https://stackoverflow.com/questions/2204250/check-if-checkbox-is-checked-with-jquery
+        var useAPI = $('#useAPI').is(":checked");
+
+        //https://stackoverflow.com/questions/27844446/html-action-from-javascript-include-js-var-as-parameter
+        window.location.replace('/DB_Favourite/GetForecast/?id=' + cityID + '&useAPI=' + useAPI);
+    });
+
+
+    var idToDelete = null;
+
+    //Delete button pressed
+    $('.delete-button').on('click', (evt) => {
+        idToDelete = Number(evt.currentTarget.id.substr(7));
+        $('#popup-container').fadeIn();
+        $('#delete-form-wrapper').show();
+        $('#add-form-wrapper').hide();
+    });
+
+    //Add button pressed
+    $('#add-favourite-wrapper').on('click', () => {
+        $('#popup-container').fadeIn();
+        $('#delete-form-wrapper').hide();
+        $('#add-form-wrapper').show();
+    });
+
+    //Add cancelled
+    $('#add-cancel-button').on('click', () => {
+        $('#popup-container').fadeOut();
+        $('#city-select').empty();
+        $('#city-input').empty();
+    });
+
+    //Delete cancelled
+    $('#delete-no-button').on('click', () => {
+        $('#popup-container').fadeOut();
+        idToDelete = null;
+    });
+
+    //Delete confirmed
+    $('#delete-yes-button').on('click', () => {
+        $('#popup-container').fadeOut(400, () => {
+            window.location.replace('/DB_Favourite/RemoveFavourite/?id=' + idToDelete);
+        });
+    });
+
+    //Close popup
+    $(document).mouseup(function (e) {
+        var container = $(".form-wrapper");
+
+        if (!container.is(e.target) // if the target of the click isn't the container...
+            && container.has(e.target).length === 0) // ... nor a descendant of the container
+        {
+            $('#popup-container').fadeOut();
+        }
+    });
+
+    //Auto-complete
+    $("#city-input").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: "/DB_Favourite/Autocomplete/",
+                type: "get",
+                dataType: "json",
+                data: { q: request.term },
+                success: function (data) {
+                    console.log(data);
+                    $('#city-select').empty();
+                    response($.map(data, function (item) {
+                        $('#city-select').append('<option value=' + item.split('_')[0] + '>' + item.split('_')[1] + '</option>');
+                        return;
+                    }))
+
+                }
+            })
+        }
+    });
+
+    //Add new favourite
+    $("#city-select").on("change", () => {
+
+        var cityId = $("#city-select").val();
+        $('#popup-container').fadeOut(400, () => {
+            $.post({
+                url: '/DB_Favourite/AddFavourite?id=' + cityId,
+                success: function () {
+                    window.location.replace('/DB_Favourite/Index');
+                }
+            });
+        });
+        
+    })
+
+</script>

@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="WeatherForecastAppModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DB_Favourite">
+          <Key>
+            <PropertyRef Name="FavouriteID" />
+          </Key>
+          <Property Name="FavouriteID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="50" />
+          <Property Name="CityID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DB_Forecast">
+          <Key>
+            <PropertyRef Name="ForecastID" />
+          </Key>
+          <Property Name="ForecastID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CityID" Type="int" Nullable="false" />
+          <Property Name="ForecastDate" Type="date" Nullable="false" />
+          <Property Name="MinTemp" Type="int" Nullable="false" />
+          <Property Name="MaxTemp" Type="int" Nullable="false" />
+          <Property Name="WindSpeed" Type="int" Nullable="false" />
+          <Property Name="Humidity" Type="int" Nullable="false" />
+          <Property Name="Precipitation" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DB_User">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="UserType" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__DB_Favour__Usern__398D8EEE">
+          <End Role="DB_User" Type="Self.DB_User" Multiplicity="0..1" />
+          <End Role="DB_Favourite" Type="Self.DB_Favourite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DB_User">
+              <PropertyRef Name="Username" />
+            </Principal>
+            <Dependent Role="DB_Favourite">
+              <PropertyRef Name="Username" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="WeatherForecastAppModelStoreContainer">
+          <EntitySet Name="DB_Favourite" EntityType="Self.DB_Favourite" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DB_Forecast" EntityType="Self.DB_Forecast" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DB_User" EntityType="Self.DB_User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__DB_Favour__Usern__398D8EEE" Association="Self.FK__DB_Favour__Usern__398D8EEE">
+            <End Role="DB_User" EntitySet="DB_User" />
+            <End Role="DB_Favourite" EntitySet="DB_Favourite" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="WeatherForecastAppModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="DB_Favourite">
+          <Key>
+            <PropertyRef Name="FavouriteID" />
+          </Key>
+          <Property Name="FavouriteID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CityID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DB_User" Relationship="Self.FK__DB_Favour__Usern__398D8EEE" FromRole="DB_Favourite" ToRole="DB_User" />
+        </EntityType>
+        <EntityType Name="DB_Forecast">
+          <Key>
+            <PropertyRef Name="ForecastID" />
+          </Key>
+          <Property Name="ForecastID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CityID" Type="Int32" Nullable="false" />
+          <Property Name="ForecastDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="MinTemp" Type="Int32" Nullable="false" />
+          <Property Name="MaxTemp" Type="Int32" Nullable="false" />
+          <Property Name="WindSpeed" Type="Int32" Nullable="false" />
+          <Property Name="Humidity" Type="Int32" Nullable="false" />
+          <Property Name="Precipitation" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DB_User">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserType" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DB_Favourite" Relationship="Self.FK__DB_Favour__Usern__398D8EEE" FromRole="DB_User" ToRole="DB_Favourite" />
+        </EntityType>
+        <Association Name="FK__DB_Favour__Usern__398D8EEE">
+          <End Role="DB_User" Type="Self.DB_User" Multiplicity="0..1" />
+          <End Role="DB_Favourite" Type="Self.DB_Favourite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DB_User">
+              <PropertyRef Name="Username" />
+            </Principal>
+            <Dependent Role="DB_Favourite">
+              <PropertyRef Name="Username" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="WeatherForecastAppEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DB_Favourite" EntityType="Self.DB_Favourite" />
+          <EntitySet Name="DB_Forecast" EntityType="Self.DB_Forecast" />
+          <EntitySet Name="DB_User" EntityType="Self.DB_User" />
+          <AssociationSet Name="FK__DB_Favour__Usern__398D8EEE" Association="Self.FK__DB_Favour__Usern__398D8EEE">
+            <End Role="DB_User" EntitySet="DB_User" />
+            <End Role="DB_Favourite" EntitySet="DB_Favourite" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="WeatherForecastAppModelStoreContainer" CdmEntityContainer="WeatherForecastAppEntities">
+          <EntitySetMapping Name="DB_Favourite">
+            <EntityTypeMapping TypeName="WeatherForecastAppModel.DB_Favourite">
+              <MappingFragment StoreEntitySet="DB_Favourite">
+                <ScalarProperty Name="FavouriteID" ColumnName="FavouriteID" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DB_Forecast">
+            <EntityTypeMapping TypeName="WeatherForecastAppModel.DB_Forecast">
+              <MappingFragment StoreEntitySet="DB_Forecast">
+                <ScalarProperty Name="ForecastID" ColumnName="ForecastID" />
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
+                <ScalarProperty Name="ForecastDate" ColumnName="ForecastDate" />
+                <ScalarProperty Name="MinTemp" ColumnName="MinTemp" />
+                <ScalarProperty Name="MaxTemp" ColumnName="MaxTemp" />
+                <ScalarProperty Name="WindSpeed" ColumnName="WindSpeed" />
+                <ScalarProperty Name="Humidity" ColumnName="Humidity" />
+                <ScalarProperty Name="Precipitation" ColumnName="Precipitation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DB_User">
+            <EntityTypeMapping TypeName="WeatherForecastAppModel.DB_User">
+              <MappingFragment StoreEntitySet="DB_User">
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
