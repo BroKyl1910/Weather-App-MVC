@@ -42,6 +42,8 @@ namespace POE_MVC.Controllers
         // GET: DB_User/Logout
         public ActionResult Logout()
         {
+            if (Session["Username"] == null) return RedirectToAction("Login", "DB_User");
+
             ViewBag.Username = Session["Username"];
             Session.Clear();
             return View();
@@ -76,37 +78,6 @@ namespace POE_MVC.Controllers
 
             Session["Username"] = username;
             return Json(new { url = "/DB_Favourite/Index"});
-        }
-
-        // GET: DB_User/Edit/5
-        public ActionResult Edit(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            DB_User dB_User = db.DB_User.Find(id);
-            if (dB_User == null)
-            {
-                return HttpNotFound();
-            }
-            return View(dB_User);
-        }
-
-        // POST: DB_User/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Username,Password,UserType")] DB_User dB_User)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(dB_User).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(dB_User);
         }
 
         protected override void Dispose(bool disposing)

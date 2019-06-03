@@ -230,10 +230,6 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\DB_User\Login.cshtml" />
     <Content Include="Views\DB_User\Logout.cshtml" />
-    <Content Include="Views\DB_Favourite\Create.cshtml" />
-    <Content Include="Views\DB_Favourite\Delete.cshtml" />
-    <Content Include="Views\DB_Favourite\Details.cshtml" />
-    <Content Include="Views\DB_Favourite\Edit.cshtml" />
     <Content Include="Views\DB_Favourite\Index.cshtml" />
     <Content Include="Views\DB_User\Register.cshtml" />
     <Content Include="Views\DB_Forecast\Index.cshtml" />

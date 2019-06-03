@@ -111,7 +111,7 @@
                                 else
                                 {
                                     <div class="row">
-                                        <i>Add cities to be on your favourite list on the left</i>
+                                        <i>Add cities to be on your favourite list</i>
                                     </div>
                                 }
                             }
@@ -152,7 +152,11 @@
 
 </div>
 
-
+@if (ViewBag.UseAPI != true)
+{
+    <script src="~/Scripts/choose-random-background.js"></script>
+}
+<script src="~/Scripts/choose-random-background.js"></script>
 
 <script>
 
@@ -258,7 +262,7 @@
                 }
             });
         });
-        
+
     })
 
 </script>

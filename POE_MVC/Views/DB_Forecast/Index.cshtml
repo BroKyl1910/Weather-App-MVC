@@ -37,14 +37,14 @@
             </div>
             @if (ViewBag.GettingCities == true)
             {
-                <div class="row">
+                <div class="row" id="bottom-row-forecast">
                     <div class="col-lg-3 col-sm-6" id="left-side">
-                        <small><i>Select city from list to view forecasts</i></small>
+                        <small id="city-info-small"><i>Select city from list to view forecasts</i></small>
                         <div id="favourite-cities-wrapper">
                             <div class="forecast-details">
                                 @foreach (POE_MVC.Helpers.City c in ViewBag.SelectedCities)
                                 {
-                                    <div class="city-container selected">
+                                    <div class="city-container @if (c.id == ViewBag.ForecastCityID) { @Html.Raw("selected") }">
                                         <label class="city-name" id="view_@c.id">@c.ToString()</label>
                                     </div>
                                 }
@@ -57,7 +57,7 @@
                         {
                             <div class="favourite-forecast-container">
 
-                                <h2 style="display: block; min-height: 20px;">@ViewBag.CityName</h2>
+                                <h2>@ViewBag.CityName</h2>
                                 <div class="light-hr"></div>
 
                                 <div id="forecasts-wrapper">
@@ -145,6 +145,8 @@
     </div>
 </div>
 
+<script src="~/Scripts/choose-random-background.js"></script>
+
 <script>
     //Check form and submit
     $('#submit-button').on('click', () => {
@@ -153,6 +155,7 @@
         }
 
     });
+
     function formValid() {
         if ($('#forecast-city-select').val().length == 0) {
             $('#error-message').html('Please select at least one city!');
@@ -182,5 +185,10 @@
     $('.city-name').on('click', (evt) => {
         var cityID = evt.currentTarget.id.substring(5);
         window.location.replace('/DB_Forecast/GetForecasts/?cityIds=' + $('#forecast-city-select').val() + '&cityId=' + Number(cityID) + '&startDate=' + $('#start-date').val() + '&endDate=' + $('#end-date').val());
+    });
+
+    //Change end date to be same as begin dat
+    $('#start-date').on('change', () => {
+        $('#end-date').val($('#start-date').val());
     });
 </script>

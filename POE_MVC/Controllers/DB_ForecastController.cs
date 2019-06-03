@@ -40,6 +40,7 @@ namespace POE_MVC.Controllers
                 ViewBag.EndDate = TempData["EndDate"];
                 ViewBag.Forecasts = TempData["Forecasts"];
                 ViewBag.CityName = TempData["CityName"];
+                ViewBag.ForecastCityID = TempData["ForecastCityID"];
             }
 
             return View();
@@ -47,6 +48,8 @@ namespace POE_MVC.Controllers
 
         public ActionResult GetCities(string cityIds, DateTime startDate, DateTime endDate)
         {
+            if (Session["Username"] == null) return RedirectToAction("Login", "DB_User");
+
             List<int> intCityIds = cityIds.Split(',').Select(id=> Convert.ToInt32(id)).ToList();
             Dictionary<int, City> cityCodeDict = CityUtilities.getCityCodeDict();
             List<City> selectedCities = intCityIds.Select(id => cityCodeDict[Convert.ToInt32(id)]).ToList();
@@ -55,12 +58,14 @@ namespace POE_MVC.Controllers
             TempData["SelectedCityIDs"] = intCityIds;
             TempData["SelectedCities"] = selectedCities;
             TempData["StartDate"] = startDate.ToString("yyyy'-'MM'-'dd"); ;
-            TempData["EndDate"] = endDate.ToString("yyyy'-'MM'-'dd"); ;
+            TempData["EndDate"] = endDate.ToString("yyyy'-'MM'-'dd"); 
             return RedirectToAction("Index");
         }
 
         public ActionResult GetForecasts(string cityIds, int cityID, DateTime startDate, DateTime endDate)
         {
+            if (Session["Username"] == null) return RedirectToAction("Login", "DB_User");
+
             List<int> intCityIds = cityIds.Split(',').Select(id => Convert.ToInt32(id)).ToList();
             Dictionary<int, City> cityCodeDict = CityUtilities.getCityCodeDict();
             List<City> selectedCities = intCityIds.Select(id => cityCodeDict[Convert.ToInt32(id)]).ToList();
@@ -85,6 +90,7 @@ namespace POE_MVC.Controllers
             TempData["StartDate"] = startDate.ToString("yyyy'-'MM'-'dd"); ;
             TempData["EndDate"] = endDate.ToString("yyyy'-'MM'-'dd"); ;
             TempData["CityName"] = CityUtilities.getCityCodeDict()[cityID];
+            TempData["ForecastCityID"] = cityID;
             TempData["SelectedCityIDs"] = intCityIds;
             TempData["SelectedCities"] = selectedCities;
 
