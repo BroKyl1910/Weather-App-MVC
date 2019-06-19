@@ -179,6 +179,7 @@
     <Content Include="Content\Images\cloudy.jpg" />
     <Content Include="Content\Images\skyWithClouds.jpg" />
     <Content Include="Content\Images\sunny.jpg" />
+    <Content Include="Content\Images\sunny.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -203,6 +204,7 @@
       <DependentUpon>WeatherForecastAppModel.edmx</DependentUpon>
     </Content>
     <Content Include="App_Data\cities.json" />
+    <None Include="Properties\PublishProfiles\WeatherAppKyleBrooks - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\choose-random-background.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -215,7 +217,9 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -226,8 +230,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\DB_User\Login.cshtml" />
     <Content Include="Views\DB_User\Logout.cshtml" />
     <Content Include="Views\DB_Favourite\Index.cshtml" />
